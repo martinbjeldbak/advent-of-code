@@ -25,14 +25,10 @@ import (
 func dayOne(measurements []int) int {
 	numIncreases := 0
 
-	prevMeasurement := -1 // assuming measurements cannot be negative
-
 	for i, measurement := range measurements {
-		if measurement > prevMeasurement && i != 0 {
+		if i != 0 && measurement > measurements[i-1] {
 			numIncreases += 1
 		}
-
-		prevMeasurement = measurement
 	}
 
 	return numIncreases
@@ -62,14 +58,4 @@ var day1Cmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(day1Cmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// day1Cmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// day1Cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
