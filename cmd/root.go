@@ -47,7 +47,7 @@ to quickly create a Cobra application.`,
 		scanner := bufio.NewScanner(inputFile)
 
 		for scanner.Scan() {
-			inputData = append(inputData, i)
+			inputData = append(inputData, scanner.Text())
 		}
 	},
 }
