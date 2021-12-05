@@ -24,12 +24,14 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func dayOne(input []string) {
+func dayOne(measurements []string) int {
 	fmt.Println("hello world!")
 
-	for _, v := range input {
+	for _, v := range measurements {
 		fmt.Println(v)
 	}
+
+	return 0
 }
 
 var inputFile string
