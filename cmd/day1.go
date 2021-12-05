@@ -28,6 +28,7 @@ func dayOne(input []string) {
 	fmt.Println("hello world!")
 
 	for _, v := range input {
+		fmt.Println(v)
 	}
 }
 
