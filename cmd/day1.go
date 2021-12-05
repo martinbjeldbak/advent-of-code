@@ -26,21 +26,19 @@ import (
 )
 
 func dayOne(measurements []int) int {
-	fmt.Println("hello world!")
-
-	num_increases := 0
+	numIncreases := 0
 
 	prevMeasurement := -1 // assuming measurements cannot be negative
 
-	for _, measurement := range measurements {
-		if measurement > prevMeasurement {
-			num_increases += 1
+	for i, measurement := range measurements {
+		if measurement > prevMeasurement && i != 0 {
+			numIncreases += 1
 		}
 
-		fmt.Println(measurement)
+		prevMeasurement = measurement
 	}
 
-	return num_increases
+	return numIncreases
 }
 
 var inputFile string
@@ -83,7 +81,7 @@ to quickly create a Cobra application.`,
 			input = append(input, measurement)
 		}
 
-		dayOne(input)
+		fmt.Println(dayOne(input))
 
 		return nil
 	},

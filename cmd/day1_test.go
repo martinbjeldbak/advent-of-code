@@ -23,7 +23,18 @@ func Test_dayOne(t *testing.T) {
 		in   []int
 		out  int
 	}{
-		{"Given example", []int{199, 200, 208, 210, 200, 207, 240, 269, 260, 363}, 7},
+		{"Given example", []int{
+			199,
+			200,
+			208,
+			210,
+			200,
+			207,
+			240,
+			269,
+			260,
+			263,
+		}, 7},
 	}
 
 	for _, tt := range tests {
