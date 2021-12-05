@@ -16,10 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"path/filepath"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -41,47 +38,23 @@ func dayOne(measurements []int) int {
 	return numIncreases
 }
 
-var inputFile string
-
 // day1Cmd represents the day1 command
 var day1Cmd = &cobra.Command{
-	Use:   "day1",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Use: "day1",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		currentDir, err := os.Getwd()
+		var measurements []int
 
-		if err != nil {
-			return err
-		}
-
-		inputFile, err := os.Open(filepath.Join(currentDir, inputFile))
-
-		if err != nil {
-			return err
-		}
-		defer inputFile.Close()
-
-		scanner := bufio.NewScanner(inputFile)
-
-		var input []int
-
-		for scanner.Scan() {
-			measurement, err := strconv.Atoi(scanner.Text())
+		for _, measurement := range inputData {
+			m, err := strconv.Atoi(measurement)
 
 			if err != nil {
 				return err
 			}
 
-			input = append(input, measurement)
+			measurements = append(measurements, m)
 		}
 
-		fmt.Println(dayOne(input))
+		fmt.Println(dayOne(measurements))
 
 		return nil
 	},
@@ -95,9 +68,6 @@ func init() {
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// day1Cmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	day1Cmd.PersistentFlags().StringVarP(&inputFile, "inputFile", "F", "", "input data file")
-	day1Cmd.MarkPersistentFlagRequired("inputFile")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

@@ -5,10 +5,17 @@ Copyright © 2021 Martin Bjeldbak Madsen <me@martinbjeldbak.com>
 package cmd
 
 import (
+	"bufio"
+	"log"
+	"os"
+	"path/filepath"
+
 	"github.com/spf13/cobra"
 )
 
 var cfgFile string
+var inputFile string
+var inputData []string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -23,6 +30,26 @@ to quickly create a Cobra application.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		currentDir, err := os.Getwd()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		inputFile, err := os.Open(filepath.Join(currentDir, inputFile))
+
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer inputFile.Close()
+
+		scanner := bufio.NewScanner(inputFile)
+
+		for scanner.Scan() {
+			inputData = append(inputData, i)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -43,6 +70,10 @@ func init() {
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	rootCmd.PersistentFlags().StringVarP(&inputFile, "inputFile", "F", "", "input data file")
+	rootCmd.MarkPersistentFlagRequired("inputFile")
+
 }
 
 // initConfig reads in config file and ENV variables if set.
