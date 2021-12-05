@@ -72,7 +72,11 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
 	rootCmd.PersistentFlags().StringVarP(&inputFile, "inputFile", "F", "", "input data file")
-	rootCmd.MarkPersistentFlagRequired("inputFile")
+	err := rootCmd.MarkPersistentFlagRequired("inputFile")
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
