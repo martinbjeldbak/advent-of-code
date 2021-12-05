@@ -20,10 +20,10 @@ import "testing"
 func Test_dayOne(t *testing.T) {
 	tests := []struct {
 		name string
-		in   []string
+		in   []int
 		out  int
 	}{
-		{"Given example", []string{"199", "200", "208", "210", "200", "207", "240", "269", "260", "363"}, 7},
+		{"Given example", []int{199, 200, 208, 210, 200, 207, 240, 269, 260, 363}, 7},
 	}
 
 	for _, tt := range tests {

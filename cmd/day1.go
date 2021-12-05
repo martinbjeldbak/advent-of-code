@@ -20,18 +20,27 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
-func dayOne(measurements []string) int {
+func dayOne(measurements []int) int {
 	fmt.Println("hello world!")
 
-	for _, v := range measurements {
-		fmt.Println(v)
+	num_increases := 0
+
+	prevMeasurement := -1 // assuming measurements cannot be negative
+
+	for _, measurement := range measurements {
+		if measurement > prevMeasurement {
+			num_increases += 1
+		}
+
+		fmt.Println(measurement)
 	}
 
-	return 0
+	return num_increases
 }
 
 var inputFile string
@@ -62,10 +71,16 @@ to quickly create a Cobra application.`,
 
 		scanner := bufio.NewScanner(inputFile)
 
-		var input []string
+		var input []int
 
 		for scanner.Scan() {
-			input = append(input, scanner.Text())
+			measurement, err := strconv.Atoi(scanner.Text())
+
+			if err != nil {
+				return err
+			}
+
+			input = append(input, measurement)
 		}
 
 		dayOne(input)
