@@ -17,20 +17,48 @@ package cmd
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/spf13/cobra"
 )
 
-func day2part2(measurements []string) int {
-	return 0
+func dayOnePart2(measurements []int) int {
+	numLarger := 0
+
+	for i, measurement := range measurements {
+		if i < 3 {
+			continue
+		}
+
+		prevWindowSum := measurements[i-1] + measurements[i-2] + measurements[i-3]
+		currentWindowSum := measurement + measurements[i-1] + measurements[i-2]
+
+		if currentWindowSum > prevWindowSum {
+			numLarger += 1
+		}
+
+	}
+
+	return numLarger
 }
 
 // day1part2Cmd represents the day1part2 command
 var day1part2Cmd = &cobra.Command{
 	Use: "day1part2",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Println("day1part2 called")
-		day2part2(inputData)
+		var measurements []int
+
+		for _, measurement := range inputData {
+			m, err := strconv.Atoi(measurement)
+
+			if err != nil {
+				return err
+			}
+
+			measurements = append(measurements, m)
+		}
+
+		fmt.Println(dayOnePart2(measurements))
 
 		return nil
 	},
@@ -38,14 +66,4 @@ var day1part2Cmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(day1part2Cmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// day1part2Cmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// day1part2Cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
