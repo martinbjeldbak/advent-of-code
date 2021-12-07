@@ -24,53 +24,48 @@ import (
 )
 
 func day3(diagnosticReports []string) (int, error) {
-	var gammaRate []int
+	var gammaRateString string
 
-	convertedReports := make([][]int, len(diagnosticReports))
-
-	for currentReport, stringReport := range diagnosticReports {
-		splitReport := strings.Split(stringReport, "")
-
-		row := make([]int, len(splitReport))
-		for i, stringBit := range splitReport {
-			bit, err := strconv.Atoi(stringBit)
-
-			if err != nil {
-				return 0, err
-			}
-
-			row[i] = bit
-		}
-
-		convertedReports[currentReport] = row
-	}
-
-	fmt.Println("Converted report:")
-	fmt.Println(convertedReports)
-
-	for bitIndex := 0; bitIndex < len(diagnosticReports[0]); bitIndex++ {
-		fmt.Printf("Looking at bit %v\n", bitIndex)
-
+	for col := 0; col < len(diagnosticReports[0]); col++ {
 		numOnes := 0
 
-		for _, diagnosticReport := range convertedReports {
-			if diagnosticReport[bitIndex] == 1 {
+		for _, diagnosticReport := range diagnosticReports {
+			reportBits := strings.Split(diagnosticReport, "")
+
+			if reportBits[col] == "1" {
 				numOnes += 1
 			}
 		}
 
 		if numOnes > len(diagnosticReports)/2 {
-			gammaRate = append(gammaRate, 1)
+			gammaRateString += "1"
 		} else {
-			gammaRate = append(gammaRate, 0)
+			gammaRateString += "0"
 		}
 	}
 
-	strconv.ParseInt()
+	gammaRate, err := strconv.ParseInt(gammaRateString, 2, 64)
 
-	fmt.Println(gammaRate)
+	if err != nil {
+		return 0, err
+	}
 
-	return 0, nil
+	var epsilonRateString string
+	for _, gammaBit := range strings.Split(gammaRateString, "") {
+		if gammaBit == "1" {
+			epsilonRateString += "0"
+		} else {
+			epsilonRateString += "1"
+		}
+	}
+
+	epsilonRate, err := strconv.ParseInt(epsilonRateString, 2, 64)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return int(gammaRate) * int(epsilonRate), nil
 }
 
 // day3Cmd represents the day3 command
@@ -83,7 +78,7 @@ var day3Cmd = &cobra.Command{
 			return err
 		}
 
-		fmt.Print(powerConsumption)
+		fmt.Println(powerConsumption)
 
 		return nil
 	},
