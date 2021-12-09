@@ -15,7 +15,21 @@ limitations under the License.
 */
 package cmd
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/martinbjeldbak/advent-of-code/testutils"
+)
+
+func TestFileInput(t *testing.T) {
+	inputData := testutils.ParseInputFile("../test/day4_input.txt")
+
+	res := day4proccessRawInput(inputData)
+
+	if res != 41668 {
+		t.Errorf("Got %v, want %v", res, 41668)
+	}
+}
 
 func Test_day4(t *testing.T) {
 	type args struct {

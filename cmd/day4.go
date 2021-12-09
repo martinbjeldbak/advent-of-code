@@ -40,8 +40,6 @@ func sumUnmarked(board [][]int) int {
 }
 
 func day4(draws []int, boards [][][]int) int {
-	winningScore := 0
-
 	for _, draw := range draws {
 		for _, board := range boards {
 			for _, row := range board {
@@ -64,58 +62,61 @@ func day4(draws []int, boards [][][]int) int {
 		}
 	}
 
-	fmt.Printf("\n\nAfter first draw, state board 1:")
-	fmt.Println(boards[0])
-
-	fmt.Printf("\n\nAfter first draw, state board 2:")
-	fmt.Println(boards[1])
-
-	fmt.Printf("\n\nAfter first draw, state board 3:")
-	fmt.Println(boards[2])
-
-	return winningScore
+	// At end of all draws, there should always be a winner so we should never reach this case
+	return 0
 }
 
-// day4Cmd represents the day4 command
+func day4proccessRawInput(inputData []string) int {
+	// Convert draw input to array of ints
+	drawInput := inputData[0]
+
+	var draws []int
+
+	for _, draw := range strings.Split(drawInput, ",") {
+		d, _ := strconv.Atoi(draw)
+
+		draws = append(draws, d)
+	}
+
+	var boards [][][]int
+	var currentBoard [][]int
+	currentBoardIndex := 0
+	rowIndex := 0
+
+	for _, rowData := range inputData[2:] {
+		if rowData == "" { // setup a fresh board
+			boards = append(boards, currentBoard)
+
+			currentBoard = [][]int{}
+
+			currentBoardIndex += 1
+			rowIndex = 0
+
+			continue
+		}
+
+		var row []int
+		for _, v := range strings.Fields(rowData) {
+			cellValue, _ := strconv.Atoi(v)
+
+			row = append(row, cellValue)
+		}
+
+		currentBoard = append(currentBoard, row)
+
+		rowIndex++
+	}
+
+	// Ensure we have the last board captured
+	boards = append(boards, currentBoard)
+
+	return day4(draws, boards)
+}
+
 var day4Cmd = &cobra.Command{
 	Use: "day4",
 	Run: func(cmd *cobra.Command, args []string) {
-
-		// Convert draw input to array of ints
-		drawInput := inputData[0]
-		var draws []int
-
-		for _, draw := range strings.Split(drawInput, ",") {
-			d, _ := strconv.Atoi(draw)
-
-			draws = append(draws, d)
-		}
-
-		var boards [][][]int
-		currentBoard := boards[0]
-		currentBoardIndex := 0
-		rowIndex := 0
-
-		for _, rowData := range inputData[1:] {
-			if rowData == "" { // setup a fresh board
-				currentBoard = boards[currentBoardIndex+1]
-				currentBoardIndex += 1
-				rowIndex = 0
-				continue
-			}
-
-			var row []int
-			for _, v := range strings.Split(rowData, " ") {
-				cellValue, _ := strconv.Atoi(v)
-
-				row = append(row, cellValue)
-			}
-
-			currentBoard[rowIndex] = row
-			rowIndex++
-		}
-
-		res := day4(draws, boards)
+		res := day4proccessRawInput(inputData)
 
 		fmt.Printf("Winning score is: %v", res)
 	},
