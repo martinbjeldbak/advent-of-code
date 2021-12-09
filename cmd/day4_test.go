@@ -24,7 +24,8 @@ import (
 func TestFileInput(t *testing.T) {
 	inputData := testutils.ParseInputFile("../test/day4_input.txt")
 
-	res := day4proccessRawInput(inputData)
+	draws, boards := day4proccessRawInput(inputData)
+	res := day4(draws, boards)
 
 	if res != 41668 {
 		t.Errorf("Got %v, want %v", res, 41668)

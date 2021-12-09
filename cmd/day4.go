@@ -66,7 +66,7 @@ func day4(draws []int, boards [][][]int) int {
 	return 0
 }
 
-func day4proccessRawInput(inputData []string) int {
+func day4proccessRawInput(inputData []string) ([]int, [][][]int) {
 	// Convert draw input to array of ints
 	drawInput := inputData[0]
 
@@ -110,13 +110,14 @@ func day4proccessRawInput(inputData []string) int {
 	// Ensure we have the last board captured
 	boards = append(boards, currentBoard)
 
-	return day4(draws, boards)
+	return draws, boards
 }
 
 var day4Cmd = &cobra.Command{
 	Use: "day4",
 	Run: func(cmd *cobra.Command, args []string) {
-		res := day4proccessRawInput(inputData)
+		draws, boards := day4proccessRawInput(inputData)
+		res := day4(draws, boards)
 
 		fmt.Printf("Winning score is: %v", res)
 	},
