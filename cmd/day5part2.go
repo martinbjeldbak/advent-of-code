@@ -49,56 +49,24 @@ func day5part2(linesData []string) int {
 				coordinates[x1][i] += 1
 			}
 		} else { // diagonal line
-			fmt.Println("Diagonal input")
-			// Find left-most point
-			startX := -1
-			startY := -1
-			targetX := -1
-			targetY := -1
-
-			if x1 < x2 {
-				startX = x1
-				startY = y1
-				targetX = x2
-				targetY = y2
-			} else {
-				startX = x2
-				startY = y2
-				targetX = x1
-				targetY = x2
+			xDir := 1
+			if x2 < x1 {
+				xDir = -1
 			}
 
-			currentX := startX
-			currentY := startY
-
-			climbing := false // assume we are falling
-
-			if targetY < startY { // need to climb
-				climbing = true
+			yDir := 1
+			if y2 < y1 {
+				yDir = -1
 			}
-			fmt.Printf("  starting at %v,%v (climbing: %v)\n", startX, startY, climbing)
 
-			for currentX <= targetX {
-				_, ok := coordinates[currentX]
+			for i := 0; i <= int(math.Abs(float64(x2-x1))); i++ {
+				_, ok := coordinates[x1+i*xDir]
 
 				if !ok {
-					coordinates[currentX] = make(map[int]int)
+					coordinates[x1+i*xDir] = make(map[int]int)
 				}
 
-				coordinates[currentX][currentY] += 1
-				fmt.Printf("  increasing diagonal at %v,%v\n", currentX, currentY)
-
-				currentX++
-
-				// 22076 too low
-				// also not 22122
-				// also not 22151
-
-				if climbing {
-					currentY--
-				} else {
-					currentY++
-				}
+				coordinates[x1+i*xDir][y1+i*yDir] += 1
 			}
 		}
 	}
