@@ -1,18 +1,3 @@
-/*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
@@ -24,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func overlappingLines(linesData []string) int {
+func day5part2(linesData []string) int {
 	coordinates := make(map[int]map[int]int)
 	overlappingPoints := 0
 
@@ -63,8 +48,58 @@ func overlappingLines(linesData []string) int {
 
 				coordinates[x1][i] += 1
 			}
-		} else {
-			fmt.Println("Got a non-horizontal or vertial line, not currently supported")
+		} else { // diagonal line
+			fmt.Println("Diagonal input")
+			// Find left-most point
+			startX := -1
+			startY := -1
+			targetX := -1
+			targetY := -1
+
+			if x1 < x2 {
+				startX = x1
+				startY = y1
+				targetX = x2
+				targetY = y2
+			} else {
+				startX = x2
+				startY = y2
+				targetX = x1
+				targetY = x2
+			}
+
+			currentX := startX
+			currentY := startY
+
+			climbing := false // assume we are falling
+
+			if targetY < startY { // need to climb
+				climbing = true
+			}
+			fmt.Printf("  starting at %v,%v (climbing: %v)\n", startX, startY, climbing)
+
+			for currentX <= targetX {
+				_, ok := coordinates[currentX]
+
+				if !ok {
+					coordinates[currentX] = make(map[int]int)
+				}
+
+				coordinates[currentX][currentY] += 1
+				fmt.Printf("  increasing diagonal at %v,%v\n", currentX, currentY)
+
+				currentX++
+
+				// 22076 too low
+				// also not 22122
+				// also not 22151
+
+				if climbing {
+					currentY--
+				} else {
+					currentY++
+				}
+			}
 		}
 	}
 
@@ -79,16 +114,17 @@ func overlappingLines(linesData []string) int {
 	return overlappingPoints
 }
 
-// day5Cmd represents the day5 command
-var day5Cmd = &cobra.Command{
-	Use: "day5",
+// day5part2Cmd represents the day5part2 command
+var day5part2Cmd = &cobra.Command{
+	Use: "day5part2",
 	Run: func(cmd *cobra.Command, args []string) {
-		res := overlappingLines(inputData)
+
+		res := day5part2(inputData)
 
 		fmt.Printf("Number of overlapping lines is: %v\n", res)
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(day5Cmd)
+	rootCmd.AddCommand(day5part2Cmd)
 }
