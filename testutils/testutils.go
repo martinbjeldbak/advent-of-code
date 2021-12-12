@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 func ParseInputFile(path string) []string {
@@ -22,4 +23,8 @@ func ParseInputFile(path string) []string {
 	}
 
 	return inputData
+}
+
+func ParseTestFile(fileName string) []string {
+	return ParseInputFile(filepath.Join("../", "test", fileName))
 }
