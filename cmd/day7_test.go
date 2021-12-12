@@ -15,7 +15,11 @@ limitations under the License.
 */
 package cmd
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/martinbjeldbak/advent-of-code/testutils"
+)
 
 func Test_day7(t *testing.T) {
 	type args struct {
@@ -30,6 +34,11 @@ func Test_day7(t *testing.T) {
 			name: "Example input from https://adventofcode.com/2021/day/7",
 			args: args{inputData: []string{"16,1,2,0,4,2,7,1,2,14"}},
 			want: 37,
+		},
+		{
+			name: "Problem input",
+			args: args{inputData: testutils.ParseTestFile("day7_input.txt")},
+			want: 345035,
 		},
 	}
 	for _, tt := range tests {

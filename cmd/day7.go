@@ -42,24 +42,19 @@ func day7(inputData []string) int {
 	}
 
 	minFuelCost := math.MaxInt
-	bestPos := 0
 
 	for targetPos := 1; targetPos <= maxPos; targetPos++ {
-		fmt.Printf("Trying target pos: %v\n", targetPos)
 		fuelCost := 0
 
 		for _, v := range crabs {
 			fuelCost += int(math.Abs(float64(v - targetPos)))
 		}
-		fmt.Printf("  got fuel cost %v\n", fuelCost)
 
 		if fuelCost < minFuelCost {
 			minFuelCost = fuelCost
-			bestPos = targetPos
+			// bestPos = targetPos
 		}
 	}
-
-	fmt.Printf("Best position: %v\n", bestPos)
 
 	return minFuelCost
 }
