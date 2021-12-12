@@ -16,11 +16,11 @@ func Test_day5part2(t *testing.T) {
 		want int
 	}{
 		{name: "Test example from https://adventofcode.com/2021/day/5#part2",
-			args: args{lines: testutils.ParseInputFile("../test/day5part2_example_input.txt")},
+			args: args{lines: testutils.ParseTestFile("day5part2_example_input.txt")},
 			want: 12,
 		},
 		{name: "Problem input https://adventofcode.com/2021/day/5#part2",
-			args: args{lines: testutils.ParseInputFile("../test/day5_input.txt")},
+			args: args{lines: testutils.ParseTestFile("day5_input.txt")},
 			want: 24164,
 		},
 	}
