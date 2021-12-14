@@ -30,7 +30,12 @@ func (s stack) Push(v string) []string {
 
 func (s stack) Pop() (stack, string) {
 	l := len(s)
-	return s[:l-1], s[l-1]
+	if l == 0 {
+		return s, ""
+	} else {
+		return s[:l-1], s[l-1]
+	}
+
 }
 
 func (s stack) Peek() string {
@@ -39,10 +44,16 @@ func (s stack) Peek() string {
 }
 
 var oppositeSymbol = map[string]string{
+	// For day 10
 	")": "(",
 	"]": "[",
 	"}": "{",
 	">": "<",
+	// For day 10 part 2
+	"(": ")",
+	"[": "]",
+	"{": "}",
+	"<": ">",
 }
 
 func day10(inputData []string) (score int) {
