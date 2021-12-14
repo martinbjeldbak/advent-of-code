@@ -45,14 +45,13 @@ var oppositeSymbol = map[string]string{
 	">": "<",
 }
 
-var scores = map[string]int{
-	")": 3,
-	"]": 57,
-	"}": 1197,
-	">": 25137,
-}
-
 func day10(inputData []string) (score int) {
+	var closingScores = map[string]int{
+		")": 3,
+		"]": 57,
+		"}": 1197,
+		">": 25137,
+	}
 
 	for _, lineData := range inputData {
 		s := make(stack, 0)
@@ -64,7 +63,7 @@ func day10(inputData []string) (score int) {
 				s = s.Push(symbol)
 			case ")", "]", "}", ">":
 				if s.Peek() != oppositeSymbol[symbol] {
-					score += scores[symbol]
+					score += closingScores[symbol]
 					goto endofline
 				} else {
 					s, _ = s.Pop()
