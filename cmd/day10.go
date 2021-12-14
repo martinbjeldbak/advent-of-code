@@ -17,7 +17,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -39,6 +38,20 @@ func (s stack) Peek() string {
 	return s[l-1]
 }
 
+var oppositeSymbol = map[string]string{
+	")": "(",
+	"]": "[",
+	"}": "{",
+	">": "<",
+}
+
+var scores = map[string]int{
+	")": 3,
+	"]": 57,
+	"}": 1197,
+	">": 25137,
+}
+
 func day10(inputData []string) (score int) {
 
 	for _, lineData := range inputData {
@@ -49,36 +62,13 @@ func day10(inputData []string) (score int) {
 			switch symbol {
 			case "(", "[", "{", "<":
 				s = s.Push(symbol)
-			case ")": //, "]", "}", ">":
-				if s.Peek() != "(" {
-					score += 3
+			case ")", "]", "}", ">":
+				if s.Peek() != oppositeSymbol[symbol] {
+					score += scores[symbol]
 					goto endofline
 				} else {
 					s, _ = s.Pop()
 				}
-			case "]":
-				if s.Peek() != "[" {
-					score += 57
-					goto endofline
-				} else {
-					s, _ = s.Pop()
-				}
-			case "}":
-				if s.Peek() != "{" {
-					score += 1197
-					goto endofline
-				} else {
-					s, _ = s.Pop()
-				}
-			case ">":
-				if s.Peek() != "<" {
-					score += 25137
-					goto endofline
-				} else {
-					s, _ = s.Pop()
-				}
-			default:
-				os.Exit(1)
 			}
 		}
 	endofline:
@@ -87,7 +77,6 @@ func day10(inputData []string) (score int) {
 	return score
 }
 
-// day10Cmd represents the day10 command
 var day10Cmd = &cobra.Command{
 	Use: "day10",
 	Run: func(cmd *cobra.Command, args []string) {
