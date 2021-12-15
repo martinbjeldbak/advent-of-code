@@ -89,7 +89,7 @@ func day8part2(inputData []string) int {
 
 			mappings := make(map[string]string)
 			for _, segment := range segments {
-				fmt.Printf("  looking at segment %v\n", segment)
+				//fmt.Printf("  looking at segment %v\n", segment)
 
 				mappings[signalMapping[segment]] = segment
 

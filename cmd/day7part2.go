@@ -46,7 +46,7 @@ func day7part2(inputData []string) int {
 	currentFuelModifier := 0
 
 	for targetPos := 1; targetPos <= maxPos; targetPos++ {
-		fmt.Printf("Evaluating cost of target pos of %v\n", targetPos)
+		//fmt.Printf("Evaluating cost of target pos of %v\n", targetPos)
 		fuelCost := 0
 
 		for _, v := range crabs {
