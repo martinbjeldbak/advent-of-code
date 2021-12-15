@@ -73,5 +73,9 @@ func init() {
 	rootCmd.AddCommand(day6Cmd)
 
 	day6Cmd.Flags().IntVarP(&numDays, "numDays", "d", 0, "Number of days to simulate")
-	day6Cmd.MarkFlagRequired("numDays")
+	err := day6Cmd.MarkFlagRequired("numDays")
+
+	if err != nil {
+		fmt.Printf("Got err %v\n", err)
+	}
 }
