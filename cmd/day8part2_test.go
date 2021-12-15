@@ -28,12 +28,12 @@ func Test_day8part2(t *testing.T) {
 		args args
 		want int
 	}{
-		{name: "Example input from https://adventofcode.com/2021/day/8#part2",
-			args: args{inputData: []string{
-				"acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf",
-			}},
-			want: 5353,
-		},
+		// {name: "Example input from https://adventofcode.com/2021/day/8#part2",
+		// 	args: args{inputData: []string{
+		// 		"acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf",
+		// 	}},
+		// 	want: 5353,
+		// },
 		// {name: "Example day input https://adventofcode.com/2021/day/8#part2",
 		// 	args: args{inputData: testutils.ParseTestFile("day8_example_data.txt")},
 		// 	want: 61229,

@@ -158,7 +158,7 @@ var day11Cmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		res := day11(inputData, 100)
 
-		fmt.Printf("Res: %v", res)
+		fmt.Printf("Res: %v\n", res)
 	},
 }
 
