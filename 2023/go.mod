@@ -1,6 +1,6 @@
-module github.com/martinbjeldbak/advent-of-code/2021
+module github.com/martinbjeldbak/advent-of-code/2023
 
-go 1.21
+go 1.21.2
 
 require github.com/spf13/cobra v1.8.0
 
