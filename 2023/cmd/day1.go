@@ -29,7 +29,6 @@ func day1(inputData []string) (int, error) {
 					lastIdx = idx
 				}
 			}
-
 		}
 
 		value := string(runes[firstIdx]) + string(runes[lastIdx])
@@ -50,20 +49,19 @@ func day1(inputData []string) (int, error) {
 	return sum, nil
 }
 
-var cmd = &cobra.Command{
-	Use: "day1",
-	RunE: func(_ *cobra.Command, _ []string) error {
-		res, err := day1(inputData)
-		if err != nil {
-			return err
-		}
-
-		fmt.Printf("Result: %v\n", res)
-
-		return nil
-	},
-}
-
 func init() {
-	rootCmd.AddCommand(cmd)
+	rootCmd.AddCommand(&cobra.Command{
+		Use: "day1",
+		RunE: func(_ *cobra.Command, _ []string) error {
+			res, err := day1(inputData)
+			if err != nil {
+				return err
+			}
+
+			fmt.Printf("Result: %v\n", res)
+
+			return nil
+		},
+	},
+	)
 }
