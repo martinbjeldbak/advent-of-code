@@ -39,27 +39,27 @@ func day4part2(inputData []string) int {
 		cardWinningNumberCount[cardNumber] = points
 	}
 
-	test := calcScratchards(1, cardWinningNumberCount)
-	fmt.Printf("Lol: %v\n", test)
+	queue := make([]int, 0, len(inputData))
 
-	return -1
-}
-
-func calcScratchards(curCard int, cards map[int]int) int {
-	matchingNumbers := cards[curCard]
-
-	copies := matchingNumbers
-
-	v := make([]int, 0, matchingNumbers)
-	for i := 1; i <= matchingNumbers; i++ {
-		copies += calcScratchards(curCard+i, cards)
-		v = append(v, calcScratchards(curCard+i, cards))
+	// warm queue with initial cards
+	for j := 1; j <= len(inputData); j++ {
+		queue = append(queue, j)
 	}
 
-	fmt.Printf("Card %v wins copies %v\n", curCard, copies)
-	fmt.Println(v)
+	i := 0
+	for i < len(queue) {
+		currentCard := queue[i]
 
-	return copies
+		wonCardCount := cardWinningNumberCount[currentCard]
+
+		for j := 1; j <= wonCardCount; j++ {
+			queue = append(queue, currentCard + j)
+		}
+
+		i++
+	}
+
+	return len(queue)
 }
 
 func init() {
