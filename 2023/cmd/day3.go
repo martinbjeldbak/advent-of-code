@@ -23,8 +23,6 @@ func day3(inputData []string) int {
 
 			_, err := strconv.Atoi(v)
 			if v != "." && err != nil {
-				fmt.Printf("Found symbol at : %v, %v: %v\n", i, j, v)
-
 				rowAbove := i - 1
 				rowBelow := i + 1
 
@@ -41,23 +39,15 @@ func day3(inputData []string) int {
 				if rowAbove >= 0 {
 					partNumber, endIndex, err := parseNumber(schematic[rowAbove], j-1)
 					if err == nil {
-						fmt.Printf("Found number above at %v, %v ending at %v: %v\n", rowAbove, j-1, endIndex, partNumber)
 						partNumbers = append(partNumbers, partNumber)
 					}
 
-					if endIndex < j {
-						partNumber, endIndex, err = parseNumber(schematic[rowAbove], j)
-						if err == nil {
-							fmt.Printf("Found number above at %v, %v: %v\n", rowAbove, j, partNumber)
-							partNumbers = append(partNumbers, partNumber)
-						}
-					}
-
-					if endIndex < j+1 {
-						partNumber, _, err = parseNumber(schematic[rowAbove], j+1)
-						if err == nil {
-							fmt.Printf("Found number above at %v, %v: %v\n", rowAbove, j+1, partNumber)
-							partNumbers = append(partNumbers, partNumber)
+					for offset := j - 1; offset <= j+1; offset++ {
+						if endIndex < offset {
+							partNumber, endIndex, err = parseNumber(schematic[rowAbove], offset)
+							if err == nil {
+								partNumbers = append(partNumbers, partNumber)
+							}
 						}
 					}
 				}
@@ -65,23 +55,14 @@ func day3(inputData []string) int {
 				if rowBelow <= len(schematic) {
 					partNumber, endIndex, err := parseNumber(schematic[rowBelow], j-1)
 					if err == nil {
-						fmt.Printf("Found number above at %v, %v ending at %v: %v\n", rowBelow, j-1, endIndex, partNumber)
 						partNumbers = append(partNumbers, partNumber)
 					}
-
-					if endIndex < j {
-						partNumber, endIndex, err = parseNumber(schematic[rowBelow], j)
-						if err == nil {
-							fmt.Printf("Found number above at %v, %v: %v\n", rowBelow, j, partNumber)
-							partNumbers = append(partNumbers, partNumber)
-						}
-					}
-
-					if endIndex < j+1 {
-						partNumber, _, err = parseNumber(schematic[rowBelow], j+1)
-						if err == nil {
-							fmt.Printf("Found number above at %v, %v: %v\n", rowBelow, j+1, partNumber)
-							partNumbers = append(partNumbers, partNumber)
+					for offset := j - 1; offset <= j+1; offset++ {
+						if endIndex < offset {
+							partNumber, endIndex, err = parseNumber(schematic[rowBelow], offset)
+							if err == nil {
+								partNumbers = append(partNumbers, partNumber)
+							}
 						}
 					}
 				}
