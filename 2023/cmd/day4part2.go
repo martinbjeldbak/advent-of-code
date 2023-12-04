@@ -41,7 +41,7 @@ func day4part2(inputData []string) int {
 
 	queue := make([]int, 0, len(inputData))
 
-	// warm queue with initial cards
+	// warm queue with original cards
 	for j := 1; j <= len(inputData); j++ {
 		queue = append(queue, j)
 	}
