@@ -15,11 +15,31 @@ type mapping struct {
 }
 
 func (m *mapping) dest(source int) (int, error) {
-	return -1, nil
+	srcEnd := m.src + m.length
+
+	if source < m.src {
+		return -1, fmt.Errorf("source %v is ABOVE this mapping of (%v, %v)", source, m.src, srcEnd)
+	}
+	if source > (srcEnd) {
+		return -1, fmt.Errorf("source %v is ABOVE this mapping of (%v, %v)", source, m.src, srcEnd)
+	}
+
+	offset := source - m.src
+	return m.dst + offset, nil
 }
 
 func (m *mapping) String() string {
 	return fmt.Sprintf("(dst: %v, src: %v, len: %v)", m.dst, m.src, m.length)
+}
+
+func destinationFor(source int, mappings []*mapping) int {
+	for _, v := range mappings {
+		dest, err := v.dest(source)
+		if err == nil {
+			return dest
+		}
+	}
+	return source
 }
 
 func day5(inputData []string) int {
@@ -65,10 +85,25 @@ func day5(inputData []string) int {
 		}
 	}
 
-	fmt.Println(seeds)
-	fmt.Println(almanac)
+	locations := make([]int, 0, len(seeds))
+	for _, seed := range seeds {
+		loc := seed
 
-	return -1
+		for curAlmanac := 0; curAlmanac < len(almanac); curAlmanac++ {
+			loc = destinationFor(loc, almanac[curAlmanac])
+		}
+
+		locations = append(locations, loc)
+	}
+
+	minLocation := 99999999999999999
+	for _, location := range locations {
+		if location < minLocation {
+			minLocation = location
+		}
+	}
+
+	return minLocation
 }
 
 func init() {
