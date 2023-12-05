@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"sync"
 
 	"github.com/spf13/cobra"
 )
@@ -52,40 +51,31 @@ func day5part2(inputData []string) int {
 		}
 	}
 
-	var wg sync.WaitGroup
-	minLocations := make(chan int)
+	memo := make(map[int]int)
 
 	for curSeedIndex := 0; curSeedIndex < len(seeds); curSeedIndex += 2 {
-		wg.Add(1)
-		curSeedIndex := curSeedIndex
+		curSeed := seeds[curSeedIndex]
 
-		go func(curSeedIndex int) {
-			defer wg.Done()
-			curSeed := seeds[curSeedIndex]
-			minLocation := 99999999999999999
+		for offset := 0; offset < seeds[curSeedIndex+1]; offset++ {
+			loc := curSeed + offset
 
-			for offset := 0; offset < seeds[curSeedIndex+1]; offset++ {
-				loc := curSeed + offset
-				for curAlmanac := 0; curAlmanac < len(almanac); curAlmanac++ {
-					loc = destinationFor(loc, almanac[curAlmanac])
-				}
+			_, ok := memo[loc]
 
-				if loc < minLocation {
-					minLocation = loc
-				}
+			if ok {
+				fmt.Println("Key exists, skipping calc")
+				continue
 			}
-			minLocations <- minLocation
-		}(curSeedIndex)
 
+			for curAlmanac := 0; curAlmanac < len(almanac); curAlmanac++ {
+				loc = destinationFor(loc, almanac[curAlmanac])
+			}
+
+			memo[curSeed+offset] = loc
+		}
 	}
 
-	go func() {
-		wg.Wait()
-		close(minLocations)
-	}()
-
-	minLoc := <-minLocations
-	for v := range minLocations {
+	minLoc := memo[seeds[0]]
+	for _, v := range memo {
 		if v < minLoc {
 			minLoc = v
 		}
