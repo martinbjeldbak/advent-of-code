@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/spf13/cobra"
 )
@@ -51,23 +52,46 @@ func day5part2(inputData []string) int {
 		}
 	}
 
-	minLocation := 99999999999999999
+	var wg sync.WaitGroup
+	minLocations := make(chan int)
+
 	for curSeedIndex := 0; curSeedIndex < len(seeds); curSeedIndex += 2 {
-		curSeed := seeds[curSeedIndex]
+		wg.Add(1)
+		curSeedIndex := curSeedIndex
 
-		for offset := 0; offset < seeds[curSeedIndex+1]; offset++ {
-			loc := curSeed + offset
-			for curAlmanac := 0; curAlmanac < len(almanac); curAlmanac++ {
-				loc = destinationFor(loc, almanac[curAlmanac])
-			}
+		go func(curSeedIndex int) {
+			defer wg.Done()
+			curSeed := seeds[curSeedIndex]
+			minLocation := 99999999999999999
 
-			if loc < minLocation {
-				minLocation = loc
+			for offset := 0; offset < seeds[curSeedIndex+1]; offset++ {
+				loc := curSeed + offset
+				for curAlmanac := 0; curAlmanac < len(almanac); curAlmanac++ {
+					loc = destinationFor(loc, almanac[curAlmanac])
+				}
+
+				if loc < minLocation {
+					minLocation = loc
+				}
 			}
+			minLocations <- minLocation
+		}(curSeedIndex)
+
+	}
+
+	go func() {
+		wg.Wait()
+		close(minLocations)
+	}()
+
+	minLoc := <-minLocations
+	for v := range minLocations {
+		if v < minLoc {
+			minLoc = v
 		}
 	}
 
-	return minLocation
+	return minLoc
 }
 
 func init() {
