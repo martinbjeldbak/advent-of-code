@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 
@@ -22,21 +23,14 @@ func day6part2(inputData []string) int {
 		rawDistance += v
 	}
 
-	time, _ := strconv.Atoi(rawTime)
-	minDistance, _ := strconv.Atoi(rawDistance)
+	time, _ := strconv.ParseFloat(rawTime, 64)
+	minDistance, _ := strconv.ParseFloat(rawDistance, 64)
 
-	numWay := 0
 
-	for msHeld := 0; msHeld < time; msHeld++ {
-		timeLeft := time - msHeld
-		distance := timeLeft * msHeld
+	d1 := -time + math.Sqrt(time*time - 4 * minDistance) / 2
+	d2 := -time - math.Sqrt(time*time - 4 * minDistance) / 2
 
-		if distance > minDistance {
-			numWay++
-		}
-	}
-
-	return numWay
+	return int(d1-d2)
 }
 
 func init() {
