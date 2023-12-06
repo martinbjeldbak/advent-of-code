@@ -62,7 +62,6 @@ func day5part2(inputData []string) int {
 			_, ok := memo[loc]
 
 			if ok {
-				fmt.Println("Key exists, skipping calc")
 				continue
 			}
 
