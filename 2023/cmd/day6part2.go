@@ -23,9 +23,8 @@ func day6part2(inputData []string) int {
 		rawDistance += v
 	}
 
-	time, _ := strconv.ParseFloat(rawTime, 64)
-	minDistance, _ := strconv.ParseFloat(rawDistance, 64)
-
+	time, _ := strconv.ParseFloat(rawTime, 32)
+	minDistance, _ := strconv.ParseFloat(rawDistance, 32)
 
 	d1 := -time + math.Sqrt(time*time - 4 * minDistance) / 2
 	d2 := -time - math.Sqrt(time*time - 4 * minDistance) / 2
