@@ -17,7 +17,7 @@ type hand struct {
 }
 
 func (h *hand) String() string {
-	return fmt.Sprintf("(%v %v: %v)", h.strength, h.cards, h.bid)
+	return fmt.Sprintf("(%v %v: %v)\n", h.strength, h.cards, h.bid)
 }
 
 func day7(inputData []string) int {
