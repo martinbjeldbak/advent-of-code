@@ -15,7 +15,7 @@ func Test_day5part2(t *testing.T) {
 			name: "Example",
 			args: args{
 				inputData: []string{
-					"seeds: 79 14 55 13 79 14",
+					"seeds: 79 14 55 13",
 					"",
 					"seed-to-soil map:",
 					"50 98 2",
