@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func day9(inputData []string) int {
+func day9part2(inputData []string) int {
 	histories := make([][]int, 0, len(inputData))
 
 	for _, row := range inputData {
@@ -44,41 +44,37 @@ func day9(inputData []string) int {
 		}
 
 		for i := len(differences) - 1; i >= 0; i-- {
+			newDiff := make([]int, 1, len(differences)+1)
+
 			if i == len(differences)-1 {
-				differences[i] = append(differences[i], 0)
+				differences[i] = append(newDiff, differences[i]...)
 				continue
 			}
 
-			leftOfMe := differences[i][len(differences[i])-1]
-			below := differences[i+1][len(differences[i+1])-1]
+			rightOfMe := differences[i][0]
+			below := differences[i+1][0]
 
-			placeholder := leftOfMe + below
+			placeholder := rightOfMe - below
 
-			differences[i] = append(differences[i], placeholder)
+			newDiff[0] = placeholder
+
+			differences[i] = append(newDiff, differences[i]...)
 		}
+		fmt.Println(differences)
 
-		sum += differences[0][len(differences[0])-1]
+		sum += differences[0][0]
 	}
 
 	return sum
 }
 
-func allZero(i []int) bool {
-	for _, v := range i {
-		if v != 0 {
-			return false
-		}
-	}
-	return true
-}
-
 func init() {
 	rootCmd.AddCommand(&cobra.Command{
-		Use: "day9",
+		Use: "day9part2",
 		Run: func(_ *cobra.Command, _ []string) {
 			start := time.Now()
 
-			res := day9(inputData)
+			res := day9part2(inputData)
 
 			fmt.Printf("Result: %v ran in %v\n", res, time.Since(start))
 		},
