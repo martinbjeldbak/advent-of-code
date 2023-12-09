@@ -8,6 +8,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// Src: https://siongui.github.io/2017/06/03/go-find-lcm-by-gcd/
+// greatest common divisor (GCD) via Euclidean algorithm
+func gcd(a, b int) int {
+	for b != 0 {
+		t := b
+		b = a % b
+		a = t
+	}
+	return a
+}
+
+func leastCommonMultiple(a, b int, integers ...int) int {
+	result := a * b / gcd(a, b)
+
+	for i := 0; i < len(integers); i++ {
+		result = leastCommonMultiple(result, integers[i])
+	}
+
+	return result
+}
+
 func day8part2(inputData []string) int {
 	instructions := strings.Split(inputData[0], "")
 	instructionIndex := make([]int, len(instructions))
@@ -40,34 +61,35 @@ func day8part2(inputData []string) int {
 		network[node] = []string{LR[1], LR[2]}
 	}
 
-	fmt.Println("Starting at")
-	fmt.Println(curNodes)
+	lengths := make([]int, len(curNodes))
 
 	steps := 0
 	atEnd := false
 	for !atEnd {
-		// fmt.Println(curNodes)
-
 		atEnd = true
 		for i, curNode := range curNodes {
 			targets := network[curNode]
 
 			curNode = targets[instructionIndex[steps%len(instructionIndex)]]
 			curNodes[i] = curNode
-
-			if curNode[2] != 'Z' {
-				atEnd = false
-			}
 		}
 
 		steps++
 
-		if atEnd == true {
-			break
+		for i, curNode := range curNodes {
+			if curNode[2] == 'Z' {
+				lengths[i] = steps
+			}
+		}
+
+		for _, l := range lengths {
+			if l == 0 {
+				atEnd = false
+			}
 		}
 	}
 
-	return steps
+	return leastCommonMultiple(lengths[0], lengths[1], lengths[1:]...)
 }
 
 func init() {
