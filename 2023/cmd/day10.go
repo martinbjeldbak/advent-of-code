@@ -36,7 +36,7 @@ type pipe struct {
 	isStarting bool
 }
 
-func (t *tile) connectedTo(other tile) bool {
+func (t *tile) connectedTo(other *tile) bool {
 	if other.pipe.value == "." {
 		return false
 	}
@@ -105,8 +105,8 @@ func (t *tile) connectedTo(other tile) bool {
 	return false
 }
 
-func tilesBordering(x, y int, field [][]tile) []tile {
-	tiles := make([]tile, 0)
+func tilesBordering(x, y int, field [][]*tile) []*tile {
+	tiles := make([]*tile, 0)
 
 	if y-1 >= 0 {
 		tiles = append(tiles, field[y-1][x])
@@ -124,9 +124,9 @@ func tilesBordering(x, y int, field [][]tile) []tile {
 	return tiles
 }
 
-func connectedTilebordering(x, y int, field [][]tile) []tile {
+func connectedTilebordering(x, y int, field [][]*tile) []*tile {
 	curTile := field[y][x]
-	connectedTiles := make([]tile, 0, 2)
+	connectedTiles := make([]*tile, 0, 2)
 
 	for _, o := range tilesBordering(x, y, field) {
 		if curTile.connectedTo(o) {
@@ -137,8 +137,8 @@ func connectedTilebordering(x, y int, field [][]tile) []tile {
 }
 
 type step struct {
-	curTile  tile
-	prevTile tile
+	curTile  *tile
+	prevTile *tile
 	distance int
 }
 
@@ -147,9 +147,9 @@ func (s step) String() string {
 }
 
 func day10(inputData []string) int {
-	var S tile
+	var S *tile
 
-	field := make([][]tile, len(inputData))
+	field := make([][]*tile, len(inputData))
 	pipes := make(map[string]pipe)
 	pipes["|"] = pipe{value: "|", N: true, S: true}
 	pipes["-"] = pipe{value: "-", E: true, W: true}
@@ -162,10 +162,10 @@ func day10(inputData []string) int {
 
 	for y, row := range inputData {
 		tilesRaw := strings.Split(row, "")
-		tiles := make([]tile, len(tilesRaw))
+		tiles := make([]*tile, len(tilesRaw))
 
 		for x, t := range tilesRaw {
-			tiles[x] = tile{coord: coord{x: x, y: y}, pipe: pipes[t]}
+			tiles[x] = &tile{coord: coord{x: x, y: y}, pipe: pipes[t]}
 
 			if tiles[x].isStartTile() {
 				S = tiles[x]
@@ -181,9 +181,9 @@ func day10(inputData []string) int {
 
 	for dir1.curTile != dir2.curTile {
 		dir1Connected := connectedTilebordering(dir1.curTile.x, dir1.curTile.y, field)
-		dir1Connected = slices.DeleteFunc(dir1Connected, func(t tile) bool { return t == dir1.prevTile })
+		dir1Connected = slices.DeleteFunc(dir1Connected, func(t *tile) bool { return t == dir1.prevTile })
 		dir2Connected := connectedTilebordering(dir2.curTile.x, dir2.curTile.y, field)
-		dir2Connected = slices.DeleteFunc(dir2Connected, func(t tile) bool { return t == dir2.prevTile })
+		dir2Connected = slices.DeleteFunc(dir2Connected, func(t *tile) bool { return t == dir2.prevTile })
 
 		dir1.prevTile = dir1.curTile
 		dir1.distance++
