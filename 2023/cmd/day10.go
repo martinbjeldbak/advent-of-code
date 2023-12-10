@@ -176,19 +176,8 @@ func day10(inputData []string) int {
 	}
 
 	connectedTiles := connectedTilebordering(S.x, S.y, field)
-	dir1 := step{
-		curTile:  connectedTiles[0],
-		distance: 1,
-		prevTile: S,
-	}
-	dir2 := step{
-		curTile:  connectedTiles[1],
-		distance: 1,
-		prevTile: S,
-	}
-
-	dir1Connected := connectedTilebordering(dir1.curTile.x, dir1.curTile.y, field)
-	dir1Connected = slices.DeleteFunc(dir1Connected, func(t tile) bool { return t == dir1.prevTile })
+	dir1 := step{curTile: connectedTiles[0], distance: 1, prevTile: S}
+	dir2 := step{curTile: connectedTiles[1], distance: 1, prevTile: S}
 
 	for dir1.curTile != dir2.curTile {
 		dir1Connected := connectedTilebordering(dir1.curTile.x, dir1.curTile.y, field)
@@ -200,7 +189,6 @@ func day10(inputData []string) int {
 		dir1.distance++
 		dir1.curTile = dir1Connected[0]
 		dir2.prevTile = dir2.curTile
-		dir2.distance++
 		dir2.curTile = dir2Connected[0]
 	}
 
