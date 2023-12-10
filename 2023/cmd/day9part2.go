@@ -60,7 +60,6 @@ func day9part2(inputData []string) int {
 
 			differences[i] = append(newDiff, differences[i]...)
 		}
-		fmt.Println(differences)
 
 		sum += differences[0][0]
 	}
