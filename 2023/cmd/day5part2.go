@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -87,9 +88,10 @@ func init() {
 	rootCmd.AddCommand(&cobra.Command{
 		Use: "day5part2",
 		Run: func(_ *cobra.Command, _ []string) {
+			start := time.Now()
 			res := day5part2(inputData)
 
-			fmt.Printf("Result: %v\n", res)
+			fmt.Printf("Result: %v ran in %v\n", res, time.Since(start))
 		},
 	},
 	)
