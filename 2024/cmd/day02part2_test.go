@@ -2,7 +2,7 @@ package cmd
 
 import "testing"
 
-func Test_day1part2(t *testing.T) {
+func Test_day2part2(t *testing.T) {
 	type args struct {
 		inputData []string
 	}
@@ -13,30 +13,31 @@ func Test_day1part2(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "Day 1 part 2 example",
+			name:    "Test input",
 			args:    args{
+
 				inputData: []string{
-					"3   4",
-					"4   3",
-					"2   5",
-					"1   3",
-					"3   9",
-					"3   3",
+					"7 6 4 2 1",
+					"1 2 7 8 9",
+					"9 7 6 2 1",
+					"1 3 2 4 5",
+					"8 6 4 4 1",
+					"1 3 6 7 9",
 				},
 			},
-			want:    31,
+			want:    4,
 			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := day01part2(tt.args.inputData)
+			got, err := day2part2(tt.args.inputData)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("day1() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("day2part2() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("day1() = %v, want %v", got, tt.want)
+				t.Errorf("day2part2() = %v, want %v", got, tt.want)
 			}
 		})
 	}

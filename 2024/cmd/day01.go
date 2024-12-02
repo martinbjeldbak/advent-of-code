@@ -46,7 +46,7 @@ func day1(inputData []string) (int, error) {
 
 func init() {
 	rootCmd.AddCommand(&cobra.Command{
-		Use: "day1",
+		Use: "day01",
 		RunE: func(_ *cobra.Command, _ []string) error {
 			res, err := day1(inputData)
 			if err != nil {
@@ -58,5 +58,5 @@ func init() {
 			return nil
 		},
 	},
-		)
+	)
 }
