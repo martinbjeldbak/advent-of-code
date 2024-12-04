@@ -21,10 +21,6 @@ func day03part2(inputData []string) (int, error) {
 	dos := doExpr.FindAllStringIndex(program, -1)
 	donts := dontExpr.FindAllStringIndex(program, -1)
 
-	fmt.Printf("Dos: %v\n", len(dos))
-	fmt.Printf("Don'ts: %v\n", len(donts))
-	fmt.Printf("Expressions: %v\n", len(expressions))
-
 	numExpressions += len(expressions)
 	maxDo := 0
 	maxDont := 0
